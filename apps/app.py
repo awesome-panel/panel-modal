@@ -22,7 +22,7 @@ import pandas as pd
 
 from panel_modal import Modal
 
-pn.extension(sizing_mode="stretch_width")
+pn.extension(sizing_mode="stretch_width", template=None)
 
 age_list = [8, 10, 12, 14, 72, 74, 76, 78, 20, 25, 30, 35, 60, 85]
 df = pd.DataFrame({"gender": list("MMMMMMMMFFFFFF"), "age": age_list})
@@ -36,7 +36,7 @@ modal = Modal(object=content)
 layout = pn.Column(modal.param.open, modal, modal.param.is_open, modal.param.show_close_button)
 
 pn.template.FastListTemplate(
-    site="Awesome Panel",
+    site="Awesome Panel", site_url="./",
     title="Panel Modal",
     favicon="https://raw.githubusercontent.com/MarcSkovMadsen/awesome-panel-assets/320297ccb92773da099f6b97d267cc0433b67c23/favicon/ap-1f77b4.ico",
     main=[__doc__, layout], sizing_mode="stretch_both",
