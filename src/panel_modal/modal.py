@@ -1,5 +1,4 @@
 """A *modal* is an element that displays in front of and deactivates all other page content."""
-import panel as pn
 import param
 from panel.reactive import ReactiveHTML
 
@@ -191,7 +190,11 @@ def _handle_notebook():
     """In Notebook special care is needed"""
     try:
         # Imports the A11 Modal js in the notebook
-        display(pn.pane.HTML(JS, sizing_mode="fixed", width=0, height=0, margin=0))
+        display  # pylint: disable=pointless-statement
+        from IPython.core.display import HTML  # pylint: disable=import-outside-toplevel
+
+        display(HTML(JS))
+
         # Handles case wher user restarts kernel and runs all
         Modal._scripts[  # pylint: disable=protected-access
             "init_modal"

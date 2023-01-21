@@ -24,11 +24,13 @@ modal = Modal(object=pn.panel("Hi. I am the Panel Modal!", width=200))
 pn.Column(modal.param.open, modal).servable()
 ```
 
-Check out the [api](#📙-api) section below and the [examples](apps) folder for more details.
+![Panel Modal in Notebook](assets/images/panel-modal.jpg)
+
+Check out the [api](#api) section below and the [examples](apps) folder for more details.
 
 ![Project Intro](assets/videos/panel-modal-intro.gif)
 
-## 📙 Api
+## Api
 
 ### Parameters
 
