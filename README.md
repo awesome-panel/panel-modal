@@ -24,9 +24,24 @@ modal = Modal(object=pn.panel("Hi. I am the Panel Modal!", width=200))
 pn.Column(modal.param.open, modal).servable()
 ```
 
-![Project Intro](assets/videos/project-intro.gif)
+Check out the [examples](apps)
 
-REPLACE THE INTRO VIDEO
+![Project Intro](assets/videos/panel-modal-intro.gif)
+
+## `Modal` Api
+
+### Parameters
+
+- `object` : The object to display in the modal. You can display multiple objects by wrapping them in
+a layout like a Column.
+- `is_open`: Whether or not the modal is open. Set this to `True` to open the modal.
+- `show_close_button`: Whether to show a close button in the modal.
+- `style`: The css styles applied to the modal.
+
+### Events
+
+- `open`: Trigger this to open the modal.
+- `close`: Trigger this to close the modal.
 
 ## 🚀 Get started in under a minute
 
@@ -41,8 +56,6 @@ Explore the sample apps
 ```bash
 pn hello panel-modal
 ```
-
-![Project Intro](https://raw.githubusercontent.com/awesome-panel/panel-modal/main/assets/videos/pn-hello-panel-modal.gif)
 
 You can now find the *reference* and *gallery* notebooks in the `examples/awesome-panel/panel-modal` folder. Check them out by running `jupyter lab`.
 

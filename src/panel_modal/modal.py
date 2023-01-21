@@ -1,8 +1,9 @@
 """A *modal* is an element that displays in front of and deactivates all other page content."""
+import panel as pn
 import param
 from panel.reactive import ReactiveHTML
 
-JS_FILE="https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.min.js"
+JS_FILE = "https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.min.js"
 
 STYLE = """
 .dialog-container,
@@ -95,6 +96,7 @@ JS = """
 </script>
 """
 
+
 class Modal(ReactiveHTML):  # pylint: disable=too-many-ancestors
     """A *modal* is an element that displays in front of and deactivates all other page content.
 
@@ -185,14 +187,15 @@ if (data.show_close_button){pnx_dialog_close.style.display = " block"}else{pnx_d
     }
 
 
-def handle_notebook():
-    """In a notebook the js file does not seem to be imported. Furthermore if the user
-    *restarts the kernel and runs all cells* we also need to take car"""
+def _handle_notebook():
+    """In Notebook special care is needed"""
     try:
-        import panel as pn
+        # Imports the A11 Modal js in the notebook
         display(pn.pane.HTML(JS, sizing_mode="fixed", width=0, height=0, margin=0))
-
-        Modal._scripts["init_modal"] =  """
+        # Handles case wher user restarts kernel and runs all
+        Modal._scripts[  # pylint: disable=protected-access
+            "init_modal"
+        ] = """
 pnx = pnx_dialog
 dt = data
 setTimeout(function(){
@@ -201,8 +204,8 @@ setTimeout(function(){
     state.modal.on('hide', function (element, event) {dt.is_open=false})   
 }, 100);
 """
-    except:
+    except NameError:
         pass
 
-handle_notebook()
-  
+
+_handle_notebook()
