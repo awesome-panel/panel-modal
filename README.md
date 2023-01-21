@@ -1,12 +1,10 @@
 # ✨ panel-modal
 
-We want to
+We want to make it easy to use *modals* with Panel on both the server and in the notebook.
 
-- INSERT THE WHY
-
-We provide
-
-- INSERT THE WHAT
+A *modal* is an element that displays in front of and deactivates all other page content. Panel
+already includes a modal. But it only works if you using a *template* on a server. It does not
+work in the notebook.
 
 You can install and use the package as simple as.
 
@@ -15,8 +13,15 @@ pip install panel-modal
 ```
 
 ```python
-import panel_modal
-INSERT A SHORT EXAMPLE
+import panel as pn
+
+from panel_modal import Modal
+
+pn.extension()
+
+modal = Modal(object=pn.panel("Hi. I am the Panel Modal!", width=200))
+
+pn.Column(modal.param.open, modal).servable()
 ```
 
 ![Project Intro](assets/videos/project-intro.gif)

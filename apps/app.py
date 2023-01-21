@@ -28,10 +28,10 @@ age_list = [8, 10, 12, 14, 72, 74, 76, 78, 20, 25, 30, 35, 60, 85]
 df = pd.DataFrame({"gender": list("MMMMMMMMFFFFFF"), "age": age_list})
 plot = df.hvplot.box(y='age', by='gender', height=400, width=400, legend=False, ylim=(0, None))
 
-modal_object = pn.Column(
+content = pn.Column(
     "## Hi. I'm a *modal*", plot, sizing_mode="fixed", width=600
 )
-modal = Modal(object=modal_object)
+modal = Modal(object=content)
 
 layout = pn.Column(modal.param.open, modal, modal.param.is_open, modal.param.show_close_button)
 
