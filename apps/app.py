@@ -11,7 +11,7 @@ from panel_modal import Modal
 
 pn.extension()
 
-modal = Modal(object=pn.panel("Hi. I am the Panel Modal!", width=200))
+modal = Modal(pn.panel("Hi. I am the Panel Modal!", width=200))
 
 pn.Column(modal.param.open, modal).servable()
 ```
@@ -31,7 +31,7 @@ plot = df.hvplot.box(y='age', by='gender', height=400, width=400, legend=False, 
 content = pn.Column(
     "## Hi. I'm a *modal*", plot, sizing_mode="fixed", width=600
 )
-modal = Modal(object=content)
+modal = Modal(content)
 
 layout = pn.Column(modal.param.open, modal, modal.param.is_open, modal.param.show_close_button)
 

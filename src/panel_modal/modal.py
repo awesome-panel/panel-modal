@@ -1,5 +1,6 @@
 """A *modal* is an element that displays in front of and deactivates all other page content."""
 import param
+from panel.layout.base import NamedListLike
 from panel.reactive import ReactiveHTML
 
 JS_FILE = "https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.min.js"
@@ -96,7 +97,7 @@ JS = """
 """
 
 
-class Modal(ReactiveHTML):  # pylint: disable=too-many-ancestors
+class Modal(ReactiveHTML, NamedListLike):  # pylint: disable=too-many-ancestors
     """A *modal* is an element that displays in front of and deactivates all other page content.
 
     You will need to include the Modal in your layout or template. It will not be shown before
@@ -115,15 +116,10 @@ class Modal(ReactiveHTML):  # pylint: disable=too-many-ancestors
 
         pn.extension()
 
-        modal = Modal(object=pn.panel("Hi. I am the Panel Modal!", width=200))
+        modal = Modal(pn.panel("Hi. I am the Panel Modal!", width=200))
 
         pn.Column(modal.param.open, modal).servable()
     """
-
-    object = param.Parameter(
-        doc="""The object to display in the modal.
-    You can display multiple objects by wrapping them in a layout like a Column."""
-    )
 
     open = param.Event(doc="Trigger this to open the modal.")
     close = param.Event(doc="Trigger this to close the modal.")
@@ -132,8 +128,10 @@ class Modal(ReactiveHTML):  # pylint: disable=too-many-ancestors
 
     style = param.String(STYLE, doc="The css styles applied to the modal")
 
-    def __init__(self, object, **params):  # pylint: disable=redefined-builtin
-        super().__init__(object=object, height=0, width=0, margin=0, **params)
+    def __init__(self, *objects, **params):  # pylint: disable=redefined-builtin
+        params["height"] = params["width"] = params["margin"] = 0
+        NamedListLike.__init__(self, *objects, **params)
+        ReactiveHTML.__init__(self, objects=self.objects, **params)
 
     @param.depends("open", watch=True)
     def _show(self):
@@ -160,7 +158,9 @@ class Modal(ReactiveHTML):  # pylint: disable=too-many-ancestors
         ></path>
       </svg>
     </button>
-    ${object}
+    {% for object in objects %}
+      <div id="pnx_modal_object">${object}</div>
+    {% endfor %}
   </div>
 </div>
 """
@@ -178,6 +178,7 @@ class Modal(ReactiveHTML):  # pylint: disable=too-many-ancestors
 state.modal = new A11yDialog(pnx_dialog)
 state.modal.on('show', function (element, event) {data.is_open=true})
 state.modal.on('hide', function (element, event) {data.is_open=false})
+if (data.is_open==true){state.modal.show()}
 """,
         "is_open": "if (data.is_open==true){state.modal.show()} else {state.modal.hide()}",
         "show_close_button": """
@@ -199,12 +200,14 @@ def _handle_notebook():
         Modal._scripts[  # pylint: disable=protected-access
             "init_modal"
         ] = """
+st = state
 pnx = pnx_dialog
 dt = data
 setTimeout(function(){
-    state.modal = new A11yDialog(pnx)
-    state.modal.on('show', function (element, event) {dt.is_open=true})
-    state.modal.on('hide', function (element, event) {dt.is_open=false})   
+    st.modal = new A11yDialog(pnx)
+    st.modal.on('show', function (element, event) {dt.is_open=true})
+    st.modal.on('hide', function (element, event) {dt.is_open=false})   
+    if (dt.is_open==true){st.modal.show()}
 }, 100);
 """
     except NameError:

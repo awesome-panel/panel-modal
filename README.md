@@ -19,7 +19,7 @@ from panel_modal import Modal
 
 pn.extension()
 
-modal = Modal(object=pn.panel("Hi. I am the Panel Modal!", width=200))
+modal = Modal(pn.panel("Hi. I am the Panel Modal!", width=200))
 
 pn.Column(modal.param.open, modal).servable()
 ```
@@ -34,8 +34,8 @@ Check out the [api](#api) section below and the [examples](apps) folder for more
 
 ### Parameters
 
-- `object` : The object to display in the modal. You can display multiple objects by wrapping them in
-a layout like a Column.
+- `objects` : The objects to display in the modal. You can define the size of the modal if you
+wrap the objects in a layout like a Column.
 - `is_open`: Whether or not the modal is open. Set this to `True` to open the modal.
 - `show_close_button`: Whether to show a close button in the modal.
 - `style`: The css styles applied to the modal.
