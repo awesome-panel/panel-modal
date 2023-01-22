@@ -39,5 +39,5 @@ pn.template.FastListTemplate(
     site="Awesome Panel", site_url="./",
     title="Panel Modal",
     favicon="https://raw.githubusercontent.com/MarcSkovMadsen/awesome-panel-assets/320297ccb92773da099f6b97d267cc0433b67c23/favicon/ap-1f77b4.ico",
-    main=[__doc__, layout], sizing_mode="stretch_both",
+    main=[__doc__, layout]
 ).servable()
