@@ -34,8 +34,9 @@ classifiers = [
     "Topic :: Software Development :: Libraries",
 ]
 dependencies = [
-    "bokeh<3.0",
-    "panel<1.0",
+    "bokeh",
+    "panel",
+    "param",
 ]
 dynamic = ["version"]
 

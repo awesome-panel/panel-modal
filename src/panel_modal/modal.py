@@ -169,6 +169,7 @@ class Modal(ReactiveHTML, NamedListLike):  # pylint: disable=too-many-ancestors
         "render": """
         fast_el = document.getElementById("body-design-provider")
         if (fast_el!==null){
+          fast_el.appendChild(pnx_dialog_style)
           fast_el.appendChild(pnx_dialog)
         }
         self.show_close_button()
