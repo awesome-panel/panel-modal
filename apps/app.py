@@ -22,14 +22,14 @@ import pandas as pd
 
 from panel_modal import Modal
 
-pn.extension(sizing_mode="stretch_width", template=None)
+pn.extension("modal", sizing_mode="stretch_width")
 
 age_list = [8, 10, 12, 14, 72, 74, 76, 78, 20, 25, 30, 35, 60, 85]
 df = pd.DataFrame({"gender": list("MMMMMMMMFFFFFF"), "age": age_list})
 plot = df.hvplot.box(y='age', by='gender', height=400, width=400, legend=False, ylim=(0, None))
 
 content = pn.Column(
-    "## Hi. I'm a *modal*", plot, sizing_mode="fixed", width=600
+    "## Hi. I'm a *modal*", pn.panel(plot), sizing_mode="fixed", width=600
 )
 modal = Modal(content)
 

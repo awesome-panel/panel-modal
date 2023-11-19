@@ -2,7 +2,7 @@ import panel as pn
 
 from panel_modal import Modal
 
-pn.extension()
+pn.extension("modal")
 
 modal = Modal(pn.panel("Hi. I am the Panel Modal!", width=200))
 
