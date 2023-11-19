@@ -141,6 +141,8 @@ class Modal(ReactiveHTML, NamedListLike):  # pylint: disable=too-many-ancestors
     def _hide(self):
         self.is_open = False
 
+    _extension_name = "modal"
+
     __javascript__ = [JS_FILE]
 
     _template = """
@@ -181,38 +183,9 @@ state.modal.on('show', function (element, event) {data.is_open=true})
 state.modal.on('hide', function (element, event) {data.is_open=false})
 if (data.is_open==true){state.modal.show()}
 """,
-        "is_open": "if (data.is_open==true){state.modal.show()} else {state.modal.hide()}",
+        "is_open": """\
+if (data.is_open==true){state.modal.show();view.invalidate_layout()} else {state.modal.hide()}""",
         "show_close_button": """
 if (data.show_close_button){pnx_dialog_close.style.display = " block"}else{pnx_dialog_close.style.display = "none"}
 """,
     }
-
-
-def _handle_notebook():
-    """In Notebook special care is needed"""
-    try:
-        # Imports the A11 Modal js in the notebook
-        display  # pylint: disable=pointless-statement
-        from IPython.core.display import HTML  # pylint: disable=import-outside-toplevel
-
-        display(HTML(JS))
-
-        # Handles case wher user restarts kernel and runs all
-        Modal._scripts[  # pylint: disable=protected-access
-            "init_modal"
-        ] = """
-st = state
-pnx = pnx_dialog
-dt = data
-setTimeout(function(){
-    st.modal = new A11yDialog(pnx)
-    st.modal.on('show', function (element, event) {dt.is_open=true})
-    st.modal.on('hide', function (element, event) {dt.is_open=false})   
-    if (dt.is_open==true){st.modal.show()}
-}, 100);
-"""
-    except NameError:
-        pass
-
-
-_handle_notebook()
